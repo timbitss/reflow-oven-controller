@@ -1,0 +1,41 @@
+{
+	"folders": [
+		{
+			"path": "..\\..\\.."
+		},
+		{
+			"path": "..\\..\\..\\..\\..\\..\\STM32\\example_pid\\IAR"
+		},
+		{
+			"path": "..\\..\\..\\..\\..\\mcu-class-1-code-master"
+		},
+		{
+			"path": "..\\..\\..\\..\\..\\..\\active_object"
+		},
+		{
+			"path": "..\\..\\..\\..\\..\\..\\state_table\\lesson-38"
+		}
+	],
+    "settings": {
+        "files.associations": {
+            "max31855k.h": "c",
+            "cmsis_os.h": "c",
+            "functional": "c",
+            "optional": "c",
+            "regex": "c",
+            "system_error": "c",
+            "type_traits": "c",
+            "xlocmon": "c",
+            "xtr1common": "c",
+            "stack": "c",
+            "cstdio": "c",
+            "xlocnum": "c",
+            "common.h": "c",
+            "stm32l4xx_ll_usart.h": "c",
+            "console.h": "c",
+            "stdbool.h": "c",
+            "variant": "c",
+            "log.h": "c"
+        }
+    }
+}

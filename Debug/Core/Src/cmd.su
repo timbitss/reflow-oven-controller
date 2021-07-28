@@ -1,0 +1,9 @@
+cmd.c:77:11:cmd_init	32	static
+cmd.c:86:11:cmd_start	8	static
+cmd.c:92:11:cmd_register	48	static
+cmd.c:106:9:cmd_parse_args	40	static
+cmd.c:206:18:cmd_execute	96	static
+cmd.c:247:25:tokenize	56	static
+cmd.c:310:25:help_handler	32	static
+cmd.c:363:25:client_command_handler	48	static
+cmd.c:468:13:Cmd_Event_Handler	40	static

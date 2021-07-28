@@ -1,0 +1,17 @@
+stm32l4xx_ll_dma.h:629:22:LL_DMA_ConfigTransfer	32	static
+stm32l4xx_ll_dma.h:997:22:LL_DMA_SetDataLength	32	static
+stm32l4xx_ll_dma.h:1085:22:LL_DMA_SetMemoryAddress	32	static
+stm32l4xx_ll_dma.h:1108:22:LL_DMA_SetPeriphAddress	32	static
+stm32l4xx_ll_dma.h:1513:22:LL_DMA_SetPeriphRequest	40	static,ignoring_inline_asm
+stm32l4xx_ll_dma.h:1880:22:LL_DMA_ClearFlag_GI1	16	static
+stm32l4xx_ll_dma.h:1895:22:LL_DMA_ClearFlag_GI2	16	static
+stm32l4xx_ll_dma.h:1910:22:LL_DMA_ClearFlag_GI3	16	static
+stm32l4xx_ll_dma.h:1925:22:LL_DMA_ClearFlag_GI4	16	static
+stm32l4xx_ll_dma.h:1940:22:LL_DMA_ClearFlag_GI5	16	static
+stm32l4xx_ll_dma.h:1955:22:LL_DMA_ClearFlag_GI6	16	static
+stm32l4xx_ll_dma.h:1970:22:LL_DMA_ClearFlag_GI7	16	static
+stm32l4xx_ll_bus.h:418:22:LL_AHB1_GRP1_ForceReset	16	static
+stm32l4xx_ll_bus.h:447:22:LL_AHB1_GRP1_ReleaseReset	16	static
+stm32l4xx_ll_dma.c:163:13:LL_DMA_DeInit	24	static
+stm32l4xx_ll_dma.c:287:13:LL_DMA_Init	24	static
+stm32l4xx_ll_dma.c:363:6:LL_DMA_StructInit	16	static

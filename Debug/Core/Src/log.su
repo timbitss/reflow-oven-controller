@@ -1,0 +1,15 @@
+log.c:155:11:log_init	32	static
+log.c:162:6:log_toggle	4	static
+log.c:168:6:log_is_active	4	static
+log.c:173:6:log_printf	24	static
+log.c:193:20:log_level_str	16	static
+log.c:208:16:log_level_int	24	static
+log.c:235:17:cmd_log_status	32	static
+log.c:261:17:cmd_log_set	56	static
+log.c:292:20:log_level_set	56	static
+log.c:363:27:get_log_level	24	static
+log.c:389:20:get_cached_log_level	24	static
+log.c:429:20:get_uncached_log_level	24	static
+log.c:453:20:log_add_cache	48	static
+log.c:478:20:heap_bubble_down	32	static
+log.c:490:20:heap_swap	24	static

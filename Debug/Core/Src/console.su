@@ -1,0 +1,7 @@
+console.c:82:11:console_init	32	static
+console.c:89:11:console_start	24	static
+console.c:103:11:console_post	24	static
+console.c:114:6:console_signal	8	static
+console.c:126:13:Console_thread	48	static
+console.c:153:18:console_process	40	static
+console.c:205:20:post_cmd_event	8	static
