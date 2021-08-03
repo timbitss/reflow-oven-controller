@@ -12,22 +12,25 @@ To get help on a specific command within a module, type *module command help*. E
 
 ![Module Help Command](https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/module_cmd_help.PNG "Module Help Command")
 
-The most important commands are related to the reflow module. Typing *reflow status* outputs relevant information about the reflow oven controller, such as the PID parameters, to the terminal.
+### Reflow Oven Controller Commands
+The most important commands are related to the reflow module. 
+
+To view relevant information about the reflow oven controller, such as the PID parameters, to the terminal, type *reflow status*.
 
 ![Reflow Status](https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/module_cmd_help.PNG "Reflow Status")
+
+To **start** the reflow process, type *reflow start*. Note that the oven temperature must be less than the reach temperature of the cooldown phase (see profile.c) to start the reflow process, otherwise an error message is shown.
+
+To **stop** the reflow process and turn PWM off at any point in time, type *reflow stop*.
 
 To set one or more PID parameters (Kp, Ki, Kd, Tau), type *reflow set param value [param2 value2 ...]* Example:
 
 ![Reflow Set](https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/reflow_set.PNG "Reflow Set")
 
-To start the reflow process, type *reflow start*. Note that the oven temperature must be less than the reach temperature of the cooldown phase (see profile.c) to start the reflow process, otherwise an error message is shown.
-
-To stop the reflow process and turn PWM off at any point in time, type *reflow stop*.
-
 ## Data Logging
 Live plotting of the oven temperature and PID terms was achieved using Matplotlib and pySerial (see plot_temp.py). The python script starts the reflow process on its own by transmitting the *reflow start* command. After the reflow process has completed its cooldown phase or the animation window is closed, the image is saved to a ../imgs/ folder. The raw data is also saved in CSV-format to a ../csv/ folder. An example of a completed reflow process is shown below: 
 
-![Temperature Plot](https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/temp_plot.PNG "Temperature Plot")
+![Temperature Plot](https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/temp_plot.png "Temperature Plot")
 
 For added safety, the program transmits the *reflow stop* command to stop the reflow process upon error in parsing data or when the animation window is closed by the user. 
 
