@@ -6,7 +6,7 @@ A command-line interface was developed for user interaction at runtime. Users ma
 
 To see the commands that are available, type *help*.
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![Help Command](https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/help_command.PNG "Help Command")
 
 
 ## Installation and Flash 
