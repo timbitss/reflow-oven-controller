@@ -4,7 +4,9 @@ Most PCBs today utilize SMT components to minimize the physical size of the circ
 ## Software Structure
 The project is arranged into two main directories: [core/Inc](Core/Inc/) for header files and [core/Src](Core/Src/) for source files. The program itself is divided into modules for code re-use and ease of complexity. The following dependency diagram illustrates the interaction between the main modules, excluding the logging module: 
 
-![Dependencies](https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/reflow_dependencies.png "Dependencies")
+<p align="center">
+  <img src="https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/reflow_dependencies.png" alt="Module dependencies"/>
+</p>
 
 ## User Interface
 A command-line interface was developed for user interaction at runtime and for safety measures. Users may access the CLI using a serial terminal with serial line configured for 115200 baud rate, 8 data bits, 1 stop bit, and no parity.
