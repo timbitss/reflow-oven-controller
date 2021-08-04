@@ -8,9 +8,9 @@ The project is arranged into two main directories: [core/Inc](Core/Inc/) for hea
   <img src="https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/reflow_dependencies.png" alt="Module dependencies"/>
 </p>
 
-The main modules of the system are described in the following sections with some implementation details. 
+The main modules of the system are described in the following sections.
 
-### UART ([uart.c](core/src/uart.c))
+### UART ([uart.c](Core/Src/uart.c))
 
 The UART module configures the UART peripheral for character transmission and reception using interrupts. Specifically, interrupts are enabled for `RXNE` (receive buffer not empty) and `TXE` (transmit buffer empty) flags. 
 
@@ -18,11 +18,11 @@ When the `RXNE` flag is set, the UART ISR copies the received character into a m
 
 When the `TXE` flag is set, the UART ISR copies a character from the **software** transmit buffer, if non-empty, into the **hardware** transmit buffer. A character may be placed into the **software** transmit buffer by calling `uart_putc()`.
 
-### Console ([console.c](core/src/console.c))
+### Console ([console.c](Core/Src/console.c))
 
 The console module processes received characters from the UART peripheral following the active object framework. Upon character reception, the console will copy a character from the message queue into a command line buffer. When the user presses the Enter key, the console sends a "command received" event signal along with the command line buffer to the command handler for further processing. The console module also handles character deletion, toggling logging on/off, and character echoing. 
 
-### Command Handler ([cmd.c](core/src/cmd.c))
+### Command Handler ([cmd.c](Core/Src/cmd.c))
 
 The command handler module process command lines following the active object framework. Clients may register commands to the command handler by calling `cmd_register()`. Upon reception of a command line from the console, the command handler will tokenize the command line. 
 
@@ -34,7 +34,7 @@ Otherwise, the command handler will verify that the `<module> <command> [args]` 
 
 See the [User Interface](#user-interface) section for more details on the commands available.
 
-### MAX31855K Thermocouple Digitizer ([MAX31855K.c](core/src/MAX31855K.c))
+### MAX31855K Thermocouple Digitizer ([MAX31855K.c](Core/Src/MAX31855K.c))
 
 The MAX31855K thermocouple digitizer module provides an API for reading the K-type thermocouple temperature from a [MAX31855K IC](https://datasheets.maximintegrated.com/en/ds/MAX31855.pdf). 
 
@@ -44,54 +44,54 @@ Data read errors such as an open thermocouple connection or an "all-zero" readin
 
 Users have the option to read the hot-junction (thermocouple) temperature and/or the cold-junction temperature by calling `MAX31855K_Get_HJ()` or `MAX31855K_Get_CJ()`, respectively.  
 
-### PID Controller ([pid.c](core/src/pid.c))
+### PID Controller ([pid.c](Core/Src/pid.c))
 
 The PID controller module is a robust C implementation of a digital PID controller adapted from (Philip Salmony)[https://github.com/pms67/PID]. The module is relatively straightforward and does not require much explanation. Computations are performed using floating-point values to utilize the STM32's FPU peripheral. Anti-windup measures and controller output saturation is included in the PID algorithm. 
 
-### Reflow Oven Controller ([reflow.c](core/src/reflow.c))
+### Reflow Oven Controller ([reflow.c](Core/Src/reflow.c))
 
-The reflow oven controller module is the heart of the program. Since the reflow soldering process consists of multiple stages, the reflow oven controller contains a state machine that follows a standard reflow thermal profile. The state diagram is shown below: 
+The reflow oven controller module is the heart of the program. Since the reflow soldering process consists of multiple stages, the reflow oven controller contains a state machine. The state diagram is shown below: 
 
 ![reflow state diagram](https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/reflow_state_diagram.png "reflow state diagram")
 
 ## User Interface
 A command-line interface was developed for user interaction at runtime and for safety measures. Users may access the CLI using a serial terminal with the serial line configured for 115200 baud rate, 8 data bits, 1 stop bit, and no parity.
 
-To see the commands that are available, type `help` or `?`.
+To see the commands that are available, enter `help` or `?`.
 
 ![Help Command](https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/help_command.PNG "Help Command")
 
-To get help on a specific command within a module, type `<module> <command> help` or `<module> <command> ?`. E.g. entering *log set help* produces the following message:
+To get help on a specific command within a module, enter `<module> <command> help` or `<module> <command> ?`. E.g. entering `log set help` produces the following message:
 
 ![Module Help Command](https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/module_cmd_help.PNG "Module Help Command")
 
 ### UART Commands
-To view performance measures related to the UART module, type `uart pm`.
+To view performance measures related to the UART module, enter `uart pm`.
 
 ![uart pm](https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/uart_pm.PNG "uart pm")
 
-To clear performance measures related to the UART module, type `uart pm clear`.
+To clear performance measures related to the UART module, enter `uart pm clear`.
 
 ### Log Commands
-To display log levels at the global and module scope, type `log status`.
+To display log levels at the global and module scope, enter `log status`.
 
 ![Log status](https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/uart_pm.PNG "log status")
 
-To set a module's log level, type `log set <module tag> <level>`.
+To set a module's log level, enter `log set <module tag> <level>`.
 - Acceptable log levels are OFF, ERROR, WARNING, INFO, DEBUG, VERBOSE.
 - This command accepts the wildcard (*) argument for the `<module tag>` argument.
 
 ### Reflow Commands
-To view relevant information about the reflow oven controller, type `reflow status`.
+To view relevant information about the reflow oven controller, enter `reflow status`.
 
 ![Reflow Status](https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/reflow_status.PNG "Reflow Status")
 
-To **start** the reflow process, type `reflow start`. 
+To **start** the reflow process, enter `reflow start`. 
 - The oven temperature must be less than the reach temperature of the cooldown phase (see profile.c) to start the reflow process, otherwise an error message is shown.
 
-To **stop** the reflow process and turn PWM off at any point in time, type `reflow stop`.
+To **stop** the reflow process and turn PWM off at any point in time, enter `reflow stop`.
 
-To set one or more PID parameters (Kp, Ki, Kd, Tau), type `reflow set <param> <value> [param2 value2 ...]`. 
+To set one or more PID parameters (Kp, Ki, Kd, Tau), enter `reflow set <param> <value> [param2 value2 ...]`. 
 - Note: PID parameters adjusted using the `reflow set` command are not saved in flash memory and are thus overwritten upon reset.
 
 ## Data Logging
@@ -101,7 +101,7 @@ Live plotting of the oven temperature and PID terms was achieved using Matplotli
 
 Users are recommended to analyze the reflow plots during the PID tuning process for optimal system performance.
 
-For added safety, the program transmits the *reflow stop* command to stop the reflow process upon error in parsing data or when the animation window is closed by the user. 
+For added safety, the program transmits the `reflow stop` command to stop the reflow process upon error in parsing data or when the animation window is closed by the user. 
 
 
 ## Installation and Flash 
