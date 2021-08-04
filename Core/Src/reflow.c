@@ -166,7 +166,6 @@ static Reflow_Status Reflow_reset_ENTRY(Reflow_Active *const ao, Event const *co
 
 static Reflow_Status Reflow_preheat_ENTRY(Reflow_Active *const ao, Event const *const evt)
 {
-    HAL_TIM_PWM_Start(ao->pwm_timer_handle, ao->pwm_channel);
     ao->setpoint = (float)ao->reflow_phases[PREHEAT_STATE - 1].reach_temp;
     osTimerStart(ao->pid_timer_id, (uint32_t)(ao->pid_params.Ts * 1000));
     return HANDLED_STATUS;
@@ -218,6 +217,7 @@ static Reflow_Status Reflow_reset_START(Reflow_Active *const ao, Event const *co
     else
     {
         LOG("Starting reflow process\r\n");
+        HAL_TIM_PWM_Start(ao->pwm_timer_handle, ao->pwm_channel);
         LOGI(TAG, "Entering pre-heat phase.");
         ao->state = PREHEAT_STATE;
         return TRAN_STATUS;

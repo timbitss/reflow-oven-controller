@@ -88,7 +88,7 @@ mod_err_t console_init(void)
 
 mod_err_t console_start(void)
 {
-    /* Create OS objects */
+    /* Create active object. */
     static const osThreadAttr_t thread_attr = {.stack_size = CONSOLE_THREAD_STACK_SIZE};
     console.console_thread_id = osThreadNew(Console_thread, NULL, &thread_attr);
     console.console_queue_id = osMessageQueueNew(CONSOLE_MSG_QUEUE_SIZE, sizeof(char), NULL);
