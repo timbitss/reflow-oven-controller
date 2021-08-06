@@ -16,8 +16,8 @@ PCB designers today often utilize SMT components to minimize the physical size o
     - [UART Commands](#uart-commands)
     - [Log Commands](#log-commands)
     - [Reflow Commands](#reflow-commands)
-  - [Data Logging](#data-logging)
   - [Credits](#credits)
+  - [Additional Resources](#additional-resources)
 
 ## Installation 
 1. Clone this repository using `git clone https://github.com/timbitss/reflow-oven-controller.git`
@@ -38,6 +38,8 @@ PCB designers today often utilize SMT components to minimize the physical size o
 | [SparkFun Thermocouple Breakout](https://www.sparkfun.com/products/13266) | 1             |
 | [STM32 Nucleo-L476RG Board](https://www.digikey.ca/short/v0bqhwhd)        | 1             |
 | [IoT Power Relay](https://www.digikey.ca/short/4q59345b)                  | 1             |
+
+<sup>1</sup> It is recommended to purchase a used toaster oven to save on costs.
 
 ### Connections (based on configuration file)
 | Thermocouple Breakout     | Nucleo-L476RG     | 
@@ -66,15 +68,13 @@ Test runs should be performed before using the oven for reflow soldering. The ai
 The PID tuning process is outlined below:  
 
 1. Power the Nucleo board using a USB connected to a PC or laptop.      
-2. Place the 'hot' end of the thermocouple centered inside the oven.
+2. Place the 'hot' end of the thermocouple inside the oven.
 3. Turn the oven temperature knob to its maximum **bake** temperature.
 4. Run the real-time plotting script, [`plot_temp.py`] (plot_temp.py), and let the reflow process complete.
 5. Tune one or more PID parameters based on the system's response using the `reflow set` CLI command (see [Reflow Commands](#reflow-commands)).
 6. Repeat steps 3 and 4 until a reasonable reflow thermal profile is achieved.
 
-Once the PID tuning process is complete, the oven is ready for reflow applications. It is important to **keep a record of the final PID settings**, as they must be manually inputted again if the Nucleo board resets or powers off. 
-
-<sup>1</sup> It is recommended to purchase a used toaster oven to save on costs.
+Once the PID tuning process is complete, the oven is ready for reflow applications. The user should **keep a record of the final PID settings**, as they must be manually inputted again if the Nucleo board resets or powers off. 
 
 ## Command-line Interface
 Users may access the CLI using a serial terminal with the serial line configured for 115200 baud rate, 8 data bits, 1 stop bit, and no parity.
@@ -116,10 +116,18 @@ To **stop** the reflow process and turn PWM off at any point in time, enter `ref
 To set one or more PID parameters (Kp, Ki, Kd, Tau), enter `reflow set <param> <value> [param2 value2 ...]`. 
 - Note: PID parameters adjusted using the `reflow set` command are not saved in flash memory and are overwritten to their default values upon reset.
 
-## Data Logging
-Users are recomended to run the [plot_temp.py](plot_temp.py)) program to view the oven temperature and PID terms in real-time. The program automatically starts the reflow process by transmitting the `reflow start` command. After the reflow process has completed or the animation window is closed, both the plot and the raw data in CSV format are saved for further review. An example of a completed reflow process is shown below: 
+## Credits 
+- Prof. Dave Marples and Timothy Woo for inspiring me with their open-source reflow controller projects ([Leater](https://github.com/mubes/leater) and [Reflowduino](https://github.com/botletics/Reflowduino)).
+- Philip Salmony for his [digital PID implementation](https://github.com/pms67/PID).
+- Gene Schroeder for his [series on bare-metal programming](https://youtube.com/playlist?list=PL4cGeWgaBTe155QQSQ72DksLIjBn5Jn2Z).
+- Dr. Miro Samek for his [active object](https://youtu.be/l69ghMpsp6w) and [state machine](https://youtu.be/dwRsgSBcawU) tutorials. 
 
-For added safety, the program transmits the `reflow stop` command to stop the reflow process upon error in parsing data or when the animation window is closed by the user. 
-
-
-## Credits
+## Additional Resources
+- [Basics on Reflow Soldering](https://www.x-toaster.com/resources/basics-on-reflow-soldering/)
+- [PID Tuning for Toaster Reflow Ovens](https://www.x-toaster.com/resources/pid-tuning-for-toaster-reflow-oven/)
+- General Control Theory and Implementation
+  - [Brian Douglas Lecture Videos](https://www.youtube.com/channel/UCq0imsn84ShAe9PBOFnoIrg)
+  - [Control Guru](https://controlguru.com/table-of-contents/)
+  - [Control Tutorials for MATLAB and Simulink](https://ctms.engin.umich.edu/CTMS/index.php?aux=Home)
+- [Nucleo-L476RG Pinout Diagram](https://os.mbed.com/platforms/ST-Nucleo-L476RG/)
+- [SparkFun Thermocouple Breakout Hookup Guide](https://learn.sparkfun.com/tutorials/max31855k-thermocouple-breakout-hookup-guide/all)
