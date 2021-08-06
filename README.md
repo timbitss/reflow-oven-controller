@@ -21,20 +21,20 @@ PCB designers today often utilize SMT components to minimize the physical size o
   - [Additional Resources](#additional-resources)
 
 ## Installation 
-1. Clone this repository using `git clone https://github.com/timbitss/reflow-oven-controller.git`
-2. Install and open [STM32CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html).
+1. Clone this repository using `git clone https://github.com/timbitss/reflow-oven-controller.git`.
+2. Install and open an [STM32CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html) instance.
 3. Import the project to the current workspace by selecting File->General->Existing Projects into Workspace.
 4. Build the project. If no build errors exist, flash the project using the run command. 
 #### Real-time Plotting using Python
 5. [Create a virtual environment](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/#creating-a-virtual-environment) in the project repository.
-6. Install the necessary packages in the new virtual environment by entering `python3 -m pip install -r requirements.txt` for Unix/macOS users and `py -m pip install -r requirements.txt` for Windows users.
+6. Install the necessary packages in the new virtual environment by entering `python3 -m pip install -r requirements.txt` for Unix/macOS users or `py -m pip install -r requirements.txt` for Windows users.
 
 ## Usage
 ### Materials Required
 | Component                                                                 | Qty           | 
 | :-----------------------------------------------------------------------: | :-----------: | 
 | [>1000 W Convection Oven](https://tinyurl.com/5y66d4mf)<sup>1</sup>       | 1             | 
-| [Male-Female Jumper Wires](https://tinyurl.com/ka4yxnmx)                  | 6             |   
+| [Male-Female Jumper Wires](https://tinyurl.com/ka4yxnmx)                  | 7             |   
 | [K-Type Thermocouple](https://www.digikey.ca/short/b2zfmn1b)              | 1             |
 | [SparkFun Thermocouple Breakout](https://www.sparkfun.com/products/13266) | 1             |
 | [STM32 Nucleo-L476RG Board](https://www.digikey.ca/short/v0bqhwhd)        | 1             |
@@ -110,7 +110,7 @@ To view relevant information about the reflow oven controller, enter `reflow sta
 ![Reflow Status](/images/reflow_status.PNG "Reflow Status")
 
 To **start** the reflow process, enter `reflow start`. 
-- The oven temperature must be less than the reach temperature of the cooldown phase (see profile.c) to start the reflow process, otherwise an error message is shown.
+- The oven temperature must be less than the reach temperature of the cooldown phase to start the reflow process, otherwise an error message is shown.
 
 To **stop** the reflow process and turn PWM off at any point in time, enter `reflow stop`.
 
