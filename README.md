@@ -1,81 +1,97 @@
 # Reflow Oven Controller
 PCB designers today often utilize SMT components to minimize the physical size of the circuit board. The industry standard and most reliable way of soldering SMT components is through [reflow soldering](https://en.wikipedia.org/wiki/Reflow_soldering) using a reflow oven. Hobbyists, however, often perform SMT soldering using a hot air gun, a hot plate, a soldering iron, or combination thereof due to cost. Reflow ovens on the market currently range from $300 CAD up to $1500 CAD, not including [necessary modifications](https://hackaday.io/project/175048-t-962a-reflow-oven-modifications). Since reflow soldering is the most time-efficient, reliable, and safest method of SMT soldering, a Nucleo-L476RG PID reflow oven controller was designed to transform any low-cost, convectional toaster oven into a full-fledged reflow oven. 
 
-## Module Descriptions
-The project is arranged into two main directories: [core/Inc](Core/Inc/) for header files and [core/Src](Core/Src/) for source files. The program is divided into modules for code reuse and ease of complexity. The following dependency diagram illustrates the interaction between the main modules, excluding the logging module: 
+- [Reflow Oven Controller](#reflow-oven-controller)
+  - [Installation](#installation)
+      - [Real-time Plotting using Python](#real-time-plotting-using-python)
+  - [Usage](#usage)
+    - [Materials Required](#materials-required)
+    - [Connections (based on configuration file)](#connections-based-on-configuration-file)
+    - [PID Tuning](#pid-tuning)
+  - [Command-line Interface](#command-line-interface)
+    - [UART Commands](#uart-commands)
+    - [Log Commands](#log-commands)
+    - [Reflow Commands](#reflow-commands)
+  - [Data Logging](#data-logging)
+  - [Credits](#credits)
 
-<p align="center">
-  <img src="https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/reflow_dependencies.png" alt="Module dependencies"/>
-</p>
+## Installation 
+1. Clone this repository using `git clone https://github.com/timbitss/reflow-oven-controller.git`
+2. Install and open [STM32CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html), and import the project to the current workspace by selecting File->General->Existing Projects into Workspace.
+3. Build the project. If no build errors exist, flash the project using the run command. 
+#### Real-time Plotting using Python
+4. [Create a virtual environment](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/#creating-a-virtual-environment) in the project repository.
+5. Install the necessary packages in the new virtual environment by entering `python3 -m pip install -r requirements.txt` for Unix/macOS users and `py -m pip install -r requirements.txt` for Windows users.
 
-The main modules of the system are described in the following sections.
+## Usage
+### Materials Required
+| Component                                                                 | Qty           | 
+| :-----------------------------------------------------------------------: | :-----------: | 
+| [>1000 W Convection Oven](https://tinyurl.com/5y66d4mf)<sup>1</sup>       | 1             | 
+| [Male-Female Jumper Wires](https://tinyurl.com/ka4yxnmx)                  | 6             |   
+| [K-Type Thermocouple](https://www.digikey.ca/short/b2zfmn1b)              | 1             |
+| [SparkFun Thermocouple Breakout](https://www.sparkfun.com/products/13266) | 1             |
+| [STM32 Nucleo-L476RG Board](https://www.digikey.ca/short/v0bqhwhd)        | 1             |
+| [IoT Power Relay](https://www.digikey.ca/short/4q59345b)                  | 1             |
 
-### UART ([uart.c](Core/Src/uart.c))
+### Connections (based on configuration file)
+| Thermocouple Breakout     | Nucleo-L476RG     | 
+| :-----------------------: | :---------------: |
+| GND                       |  GND              |
+| VCC                       |  3V3              |
+| SCK                       |  PB10             | 
+| SO                        |  PC2              |
+| CS                        |  PC4              |
 
-The UART module configures the UART peripheral for character transmission and reception using interrupts. Specifically, interrupts are enabled for `RXNE` (receive buffer not empty) and `TXE` (transmit buffer empty) flags. 
+| K-Type Thermocouple       | Thermocouple Breakout     |
+| :-----------------------: | :-----------------------: |
+| Chromel (yellow)          | +                         |
+| Alumel (red)              | -                         |
 
-When the `RXNE` flag is set, the UART ISR copies the received character into a message queue for further processing from the console. Any reception errors (parity, frame overrun, etc.) are recorded in the UART's performance measurements, accessible from the [CLI](#uart-commands). 
+| IoT Relay                 | Nucleo-L476RG             |
+| :-----------------------: | :-----------------------: |
+| +                         | PA6 (PWM Output)          |
+| -                         | GND                       |
 
-When the `TXE` flag is set, the UART ISR copies a character from the **software** transmit buffer, if non-empty, into the **hardware** transmit buffer. A character may be placed into the **software** transmit buffer by calling `uart_putc()`.
+### PID Tuning
+Test runs should be performed before using the oven for reflow soldering. The aim is to achieve an oven temperature profile that closely matches a [standard leaded or lead-free solder profile](https://www.x-toaster.com/resources/basics-on-reflow-soldering/), depending on the user's application. An example of a reasonable reflow profile is shown below (P = 225, I = 0, D = 500, Tau = 1):
 
-### Console ([console.c](Core/Src/console.c))
+![Temperature Plot](/images/temp_plot.png "Temperature Plot")
 
-The console module processes received characters from the UART peripheral following the active object framework. Upon character reception, the console will copy a character from the message queue into a command line buffer. When the user presses the Enter key, the console sends a "command received" event signal along with the command line buffer to the command handler for further processing. The console module also handles character deletion, toggling logging on/off, and character echoing. 
+The PID tuning process is outlined below:  
 
-### Command Handler ([cmd.c](Core/Src/cmd.c))
+1. Power the Nucleo board using a USB connected to a PC or laptop.      
+2. Place the 'hot' end of the thermocouple centered inside the oven.
+3. Run the real-time plotting script, [`plot_temp.py`] (plot_temp.py), and let the reflow process complete.
+4. Tune one or more PID parameters based on the system's response using the `reflow set` CLI command (see [Reflow Commands](#reflow-commands)).
+5. Repeat steps 3 and 4 until a reasonable reflow thermal profile is achieved.
 
-The command handler module process command lines following the active object framework. Clients may register commands to the command handler by calling `cmd_register()`. Upon reception of a command line from the console, the command handler will tokenize the command line. 
+Once the PID tuning process is complete, the oven is ready for reflow applications. It is important to **keep a record of the final PID settings**, as they must be manually inputted again if the Nucleo board resets or powers off. 
 
-If the `help` or `?` command was entered, the command handler will print out the help string of each registered command. Likewise, a `<module> <command> help` or `<module> <command> ?` command will display the help string of that particular command. 
+<sup>1</sup> It is recommended to purchase a used toaster oven to save on costs.
 
-If a `<module> pm` command was entered, the command handler will print out the current performance measurements of that particular module. Likewise, a `<module> pm clear` command will clear the performance measurements of that particular module.
-
-Otherwise, the command handler will verify that the `<module> <command> [args]` command has been registered and invoke the appropriate callback function, passing along the variable number of arguments.
-
-See the [User Interface](#user-interface) section for more details on the commands available.
-
-### MAX31855K Thermocouple Digitizer ([MAX31855K.c](Core/Src/MAX31855K.c))
-
-The MAX31855K thermocouple digitizer module provides an API for reading the K-type thermocouple temperature from a [MAX31855K IC](https://datasheets.maximintegrated.com/en/ds/MAX31855.pdf). 
-
-Data reads from the thermocouple IC may be achieved in SPI RX blocking mode or in SPI DMA non-blocking mode by calling `MAX31855K_RxBlocking()` or `MAX31855K_RxDMA()`, respectively. 
-
-Data read errors such as an open thermocouple connection or an "all-zero" reading are recorded. An error can be converted into a character string for logging purposes by calling `MAX31855K_Err_Str()`. 
-
-Users have the option to read the hot-junction (thermocouple) temperature and/or the cold-junction temperature by calling `MAX31855K_Get_HJ()` or `MAX31855K_Get_CJ()`, respectively.  
-
-### PID Controller ([pid.c](Core/Src/pid.c))
-
-The PID controller module is a robust C implementation of a digital PID controller adapted from (Philip Salmony)[https://github.com/pms67/PID]. The module is relatively straightforward and does not require much explanation. Computations are performed using floating-point values to utilize the STM32's FPU peripheral. Anti-windup measures and controller output saturation is included in the PID algorithm. 
-
-### Reflow Oven Controller ([reflow.c](Core/Src/reflow.c))
-
-The reflow oven controller module is the heart of the program. Since the reflow soldering process consists of multiple stages, the reflow oven controller contains a state machine. The state diagram is shown below: 
-
-![reflow state diagram](https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/reflow_state_diagram.png "reflow state diagram")
-
-## User Interface
-A command-line interface was developed for user interaction at runtime and for safety measures. Users may access the CLI using a serial terminal with the serial line configured for 115200 baud rate, 8 data bits, 1 stop bit, and no parity.
+## Command-line Interface
+Users may access the CLI using a serial terminal with the serial line configured for 115200 baud rate, 8 data bits, 1 stop bit, and no parity.
 
 To see the commands that are available, enter `help` or `?`.
 
-![Help Command](https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/help_command.PNG "Help Command")
+![Help Command](/images/help_command.PNG "Help Command")
 
 To get help on a specific command within a module, enter `<module> <command> help` or `<module> <command> ?`. E.g. entering `log set help` produces the following message:
 
-![Module Help Command](https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/module_cmd_help.PNG "Module Help Command")
+![Module Help Command](/images/module_cmd_help.PNG "Module Help Command")
 
 ### UART Commands
 To view performance measures related to the UART module, enter `uart pm`.
 
-![uart pm](https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/uart_pm.PNG "uart pm")
+![uart pm](/images/uart_pm.PNG "uart pm")
 
 To clear performance measures related to the UART module, enter `uart pm clear`.
 
 ### Log Commands
 To display log levels at the global and module scope, enter `log status`.
 
-![Log status](https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/uart_pm.PNG "log status")
+![Log status](/images/uart_pm.PNG "log status")
 
 To set a module's log level, enter `log set <module tag> <level>`.
 - Acceptable log levels are OFF, ERROR, WARNING, INFO, DEBUG, VERBOSE.
@@ -84,7 +100,7 @@ To set a module's log level, enter `log set <module tag> <level>`.
 ### Reflow Commands
 To view relevant information about the reflow oven controller, enter `reflow status`.
 
-![Reflow Status](https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/reflow_status.PNG "Reflow Status")
+![Reflow Status](/images/reflow_status.PNG "Reflow Status")
 
 To **start** the reflow process, enter `reflow start`. 
 - The oven temperature must be less than the reach temperature of the cooldown phase (see profile.c) to start the reflow process, otherwise an error message is shown.
@@ -92,19 +108,12 @@ To **start** the reflow process, enter `reflow start`.
 To **stop** the reflow process and turn PWM off at any point in time, enter `reflow stop`.
 
 To set one or more PID parameters (Kp, Ki, Kd, Tau), enter `reflow set <param> <value> [param2 value2 ...]`. 
-- Note: PID parameters adjusted using the `reflow set` command are not saved in flash memory and are thus overwritten upon reset.
+- Note: PID parameters adjusted using the `reflow set` command are not saved in flash memory and are overwritten to their default values upon reset.
 
 ## Data Logging
-Live plotting of the oven temperature and PID terms was achieved using Matplotlib and pySerial (see [plot_temp.py](plot_temp.py)). The python script starts the reflow process on its own by transmitting the `reflow start` command. After the reflow process has completed or the animation window is closed, both the plot and the raw data in CSV format are saved. An example of a completed reflow process is shown below: 
-
-![Temperature Plot](https://github.com/timbitss/reflow-oven-controller/blob/main/imgs/temp_plot.png "Temperature Plot")
-
-Users are recommended to analyze the reflow plots during the PID tuning process for optimal system performance.
+Users are recomended to run the [plot_temp.py](plot_temp.py)) program to view the oven temperature and PID terms in real-time. The program automatically starts the reflow process by transmitting the `reflow start` command. After the reflow process has completed or the animation window is closed, both the plot and the raw data in CSV format are saved for further review. An example of a completed reflow process is shown below: 
 
 For added safety, the program transmits the `reflow stop` command to stop the reflow process upon error in parsing data or when the animation window is closed by the user. 
 
 
-## Installation and Flash 
-1. Clone this repository into an appropriately-named project folder.
-2. Inside the STM32CubeIDE, import the project to the current workspace by selecting File->General->Existing Projects into Workspace
-3. Build and run the project. 
+## Credits
