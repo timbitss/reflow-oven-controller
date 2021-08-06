@@ -16,6 +16,7 @@ PCB designers today often utilize SMT components to minimize the physical size o
     - [UART Commands](#uart-commands)
     - [Log Commands](#log-commands)
     - [Reflow Commands](#reflow-commands)
+  - [User Safety](#user-safety)
   - [Credits](#credits)
   - [Additional Resources](#additional-resources)
 
@@ -116,6 +117,13 @@ To **stop** the reflow process and turn PWM off at any point in time, enter `ref
 To set one or more PID parameters (Kp, Ki, Kd, Tau), enter `reflow set <param> <value> [param2 value2 ...]`. 
 - Note: PID parameters adjusted using the `reflow set` command are not saved in flash memory and are overwritten to their default values upon reset.
 
+## User Safety 
+Safety must be a priority when using this project. Please do not leave the reflow oven unattended during the reflow process. In addition, the following safety measures are included within the software:
+  - The reflow process starts **only** when the thermocouple reads a valid temperature below the cooldown temperature (default value = 35°C). 
+  - If the controller reads an invalid temperature **at any point** in the reflow process, the process shuts down and the relay is turned off. 
+  - Users can manually turn off the reflow process by entering `reflow stop` from a serial terminal (see [Reflow Commands](#reflow-commands)).
+  - The real-time plotter, [plot_temp.py](plot_temp.py), will automatically transmit `reflow stop` to stop the reflow process when either the data can not be parsed or the user closes the animation window. 
+
 ## Credits 
 - Prof. Dave Marples and Timothy Woo for inspiring me with their open-source reflow controller projects ([Leater](https://github.com/mubes/leater) and [Reflowduino](https://github.com/botletics/Reflowduino)).
 - Philip Salmony for his [digital PID implementation](https://github.com/pms67/PID).
@@ -125,7 +133,7 @@ To set one or more PID parameters (Kp, Ki, Kd, Tau), enter `reflow set <param> <
 ## Additional Resources
 - [Basics on Reflow Soldering](https://www.x-toaster.com/resources/basics-on-reflow-soldering/)
 - [PID Tuning for Toaster Reflow Ovens](https://www.x-toaster.com/resources/pid-tuning-for-toaster-reflow-oven/)
-- General Control Theory and Implementation
+- General Control Theory and Implementation:
   - [Brian Douglas Lecture Videos](https://www.youtube.com/channel/UCq0imsn84ShAe9PBOFnoIrg)
   - [Control Guru](https://controlguru.com/table-of-contents/)
   - [Control Tutorials for MATLAB and Simulink](https://ctms.engin.umich.edu/CTMS/index.php?aux=Home)
