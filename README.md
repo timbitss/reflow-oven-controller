@@ -3,6 +3,8 @@ PCB designers today often utilize SMT components to minimize the physical size o
 
 ![Reflow test](/images/reflow_test.jpg "Reflow test")
 
+For individual module descriptions, please view the [wiki](https://github.com/timbitss/reflow-oven-controller/wiki). 
+
 ## Table of Contents
 - [Reflow Oven Controller](#reflow-oven-controller)
   - [Table of Contents](#table-of-contents)
