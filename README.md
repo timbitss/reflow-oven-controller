@@ -71,7 +71,7 @@ The PID tuning process is outlined below:
 1. Power the Nucleo board using a USB connected to a PC or laptop.      
 2. Place the 'hot' end of the thermocouple inside the oven.
 3. Turn the oven temperature knob to its maximum **bake** temperature.
-4. Run the real-time plotting script, [`plot_temp.py`] (plot_temp.py), and let the reflow process complete.
+4. Run the real-time plotting script, [`plot_temp.py`](plot_temp.py), and let the reflow process complete.
 5. Tune one or more PID parameters based on the system's response using the `reflow set` CLI command (see [Reflow Commands](#reflow-commands)).
 6. Repeat steps 3 and 4 until a reasonable reflow thermal profile is achieved.
 

@@ -9,10 +9,18 @@ import time
 # Sampling time in ms.
 Tsample = 500
 
-# Start message and expected response from microcontroller. 
+# Start and stop messages messages to transmit. 
 start_msg = b'log set * OFF\n log set REFLOW INFO\n reflow stop\n reflow start\n'
 stop_msg = b'reflow stop\n'
+
+# Expected response message from microcontroller.
 start_response = '\x1b[0m\x1b[KStarting reflow process\r\n'
+
+# Path for CSV file.
+csv_path = "./csv/temp_ctrl.csv"
+
+# Path for temperature plot.
+plot_path = "./imgs/temp_ctrl.png"
 
 # Open serial port.
 ser = serial.Serial(port='COM3', baudrate=115200)
@@ -166,8 +174,7 @@ print("Closing serial connection.")
 ser.write(stop_msg) # For safety measures, turn reflow controller off regardless of status.
 ser.close()
 
-# Save plot as png.
-plot_path = "./imgs/temp_ctrl.png"
+# Save plot.
 version_num = 1
 
 if os.path.isfile(plot_path) == False:
@@ -179,9 +186,7 @@ else:
     plot_path = filename + '_' + str(version_num) + ext
     fig.savefig(plot_path)
 
-# Generate csv file.
-csv_path = "./csv/temp_ctrl.csv"
-
+# Save CSV file.
 if os.path.isfile(csv_path) == True:
     csv_path = './csv/temp_ctrl_{}.csv'.format(version_num)
 
