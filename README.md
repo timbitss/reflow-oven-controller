@@ -1,7 +1,11 @@
 # Reflow Oven Controller
-PCB designers today often utilize SMT components to minimize the physical size of the circuit board. The industry standard and most reliable way of soldering SMT components is through [reflow soldering](https://en.wikipedia.org/wiki/Reflow_soldering) using a reflow oven. Hobbyists, however, often perform SMT soldering using a hot air gun, a hot plate, a soldering iron, or combination thereof due to cost. Reflow ovens on the market currently range from $300 CAD up to $1500 CAD, not including [necessary modifications](https://hackaday.io/project/175048-t-962a-reflow-oven-modifications). Since reflow soldering is the most time-efficient, reliable, and safest method of SMT soldering, a Nucleo-L476RG PID reflow oven controller was designed to transform any low-cost, convectional toaster oven into a full-fledged reflow oven. 
+PCB designers today often utilize SMT components to minimize the physical size of the circuit board. The industry standard of soldering SMT components is through [reflow soldering](https://en.wikipedia.org/wiki/Reflow_soldering) using a reflow oven. Hobbyists, however, often perform SMT soldering using a hot air gun, a hot plate, a soldering iron, or combination thereof due to cost. Reflow ovens on the market currently range from $300 CAD up to $1500 CAD, not including [necessary modifications](https://hackaday.io/project/175048-t-962a-reflow-oven-modifications). Since reflow soldering is the most time-efficient, reliable, and safest method of SMT soldering, a Nucleo-L476RG PID reflow oven controller was designed to transform any low-cost, convectional toaster oven into a full-fledged reflow oven. 
 
+![Reflow Test](/images/reflow_test.jpg "Reflow Test")
+
+## Table of Contents
 - [Reflow Oven Controller](#reflow-oven-controller)
+  - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
       - [Real-time Plotting using Python](#real-time-plotting-using-python)
   - [Usage](#usage)
@@ -17,11 +21,12 @@ PCB designers today often utilize SMT components to minimize the physical size o
 
 ## Installation 
 1. Clone this repository using `git clone https://github.com/timbitss/reflow-oven-controller.git`
-2. Install and open [STM32CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html), and import the project to the current workspace by selecting File->General->Existing Projects into Workspace.
-3. Build the project. If no build errors exist, flash the project using the run command. 
+2. Install and open [STM32CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html).
+3. Import the project to the current workspace by selecting File->General->Existing Projects into Workspace.
+4. Build the project. If no build errors exist, flash the project using the run command. 
 #### Real-time Plotting using Python
-4. [Create a virtual environment](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/#creating-a-virtual-environment) in the project repository.
-5. Install the necessary packages in the new virtual environment by entering `python3 -m pip install -r requirements.txt` for Unix/macOS users and `py -m pip install -r requirements.txt` for Windows users.
+5. [Create a virtual environment](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/#creating-a-virtual-environment) in the project repository.
+6. Install the necessary packages in the new virtual environment by entering `python3 -m pip install -r requirements.txt` for Unix/macOS users and `py -m pip install -r requirements.txt` for Windows users.
 
 ## Usage
 ### Materials Required
@@ -54,7 +59,7 @@ PCB designers today often utilize SMT components to minimize the physical size o
 | -                         | GND                       |
 
 ### PID Tuning
-Test runs should be performed before using the oven for reflow soldering. The aim is to achieve an oven temperature profile that closely matches a [standard leaded or lead-free solder profile](https://www.x-toaster.com/resources/basics-on-reflow-soldering/), depending on the user's application. An example of a reasonable reflow profile is shown below (P = 225, I = 0, D = 500, Tau = 1):
+Test runs should be performed before using the oven for reflow soldering. The aim is to achieve an oven temperature profile that closely matches a [standard leaded or lead-free solder profile](https://www.x-toaster.com/resources/basics-on-reflow-soldering/), depending on the user's application. An example of a reasonably-tuned reflow profile is shown below (P = 225, I = 0, D = 500, Tau = 1):
 
 ![Temperature Plot](/images/temp_plot.png "Temperature Plot")
 
@@ -62,9 +67,10 @@ The PID tuning process is outlined below:
 
 1. Power the Nucleo board using a USB connected to a PC or laptop.      
 2. Place the 'hot' end of the thermocouple centered inside the oven.
-3. Run the real-time plotting script, [`plot_temp.py`] (plot_temp.py), and let the reflow process complete.
-4. Tune one or more PID parameters based on the system's response using the `reflow set` CLI command (see [Reflow Commands](#reflow-commands)).
-5. Repeat steps 3 and 4 until a reasonable reflow thermal profile is achieved.
+3. Turn the oven temperature knob to its maximum **bake** temperature.
+4. Run the real-time plotting script, [`plot_temp.py`] (plot_temp.py), and let the reflow process complete.
+5. Tune one or more PID parameters based on the system's response using the `reflow set` CLI command (see [Reflow Commands](#reflow-commands)).
+6. Repeat steps 3 and 4 until a reasonable reflow thermal profile is achieved.
 
 Once the PID tuning process is complete, the oven is ready for reflow applications. It is important to **keep a record of the final PID settings**, as they must be manually inputted again if the Nucleo board resets or powers off. 
 
