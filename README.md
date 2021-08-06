@@ -1,7 +1,7 @@
 # Reflow Oven Controller
 PCB designers today often utilize SMT components to minimize the physical size of the circuit board. The industry standard of soldering SMT components is through [reflow soldering](https://en.wikipedia.org/wiki/Reflow_soldering) using a reflow oven. Hobbyists, however, often perform SMT soldering using a hot air gun, a hot plate, a soldering iron, or combination thereof due to cost. Reflow ovens on the market currently range from $300 CAD up to $1500 CAD, not including [necessary modifications](https://hackaday.io/project/175048-t-962a-reflow-oven-modifications). Since reflow soldering is the most time-efficient, reliable, and safest method of SMT soldering, a Nucleo-L476RG PID reflow oven controller was designed to transform any low-cost, convectional toaster oven into a full-fledged reflow oven. 
 
-![Reflow Test](/images/reflow_test.jpg "Reflow Test")
+![Reflow test](/images/reflow_test.jpg "Reflow test")
 
 ## Table of Contents
 - [Reflow Oven Controller](#reflow-oven-controller)
