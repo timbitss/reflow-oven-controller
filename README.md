@@ -6,7 +6,7 @@ PCB designers today often utilize SMT components to minimize the physical size o
 ## Table of Contents
 - [Reflow Oven Controller](#reflow-oven-controller)
   - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
+  - [Installation and Setup](#installation-and-setup)
       - [Real-time Plotting using Python](#real-time-plotting-using-python)
   - [Usage](#usage)
     - [Materials Required](#materials-required)
@@ -20,7 +20,7 @@ PCB designers today often utilize SMT components to minimize the physical size o
   - [Credits](#credits)
   - [Additional Resources](#additional-resources)
 
-## Installation 
+## Installation and Setup
 1. Clone this repository using `git clone https://github.com/timbitss/reflow-oven-controller.git`.
 2. Install and open an [STM32CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html) instance.
 3. Import the project to the current workspace by selecting File->General->Existing Projects into Workspace.
@@ -28,6 +28,7 @@ PCB designers today often utilize SMT components to minimize the physical size o
 #### Real-time Plotting using Python
 5. [Create a virtual environment](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/#creating-a-virtual-environment) in the project repository.
 6. Install the necessary packages in the new virtual environment by entering `python3 -m pip install -r requirements.txt` for Unix/macOS users or `py -m pip install -r requirements.txt` for Windows users.
+7. Create two folders in the root directory, one for CSV files and the other for temperature plots, and update the `csv_path` and `plot_path` variables in `plot_temp.py` to match their respective path. 
 
 ## Usage
 ### Materials Required
