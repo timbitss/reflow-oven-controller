@@ -28,7 +28,7 @@ PCB designers today often utilize SMT components to minimize the physical size o
 #### Real-time Plotting using Python
 5. [Create a virtual environment](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/#creating-a-virtual-environment) in the project repository.
 6. Install the necessary packages in the new virtual environment by entering `python3 -m pip install -r requirements.txt` for Unix/macOS users or `py -m pip install -r requirements.txt` for Windows users.
-7. Create two folders in the root directory, one for CSV files and the other for temperature plots, and update the `csv_path` and `plot_path` variables in `plot_temp.py` to match their respective path. 
+7. Create two folders in the root directory, one for CSV files and the other for temperature plots, and update the `csv_path` and `plot_path` variables in [`plot_temp.py`](plot_temp.py) to match their respective path. 
 
 ## Usage
 ### Materials Required
