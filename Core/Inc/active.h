@@ -44,14 +44,14 @@ typedef struct Active Active;
 /**
  * @brief Time event class.
  * 
- * Timeout event is posted to specified active object 
- * once timeout value reaches 0.
+ * Timeout event is posted to the specified active object 
+ * once the timeout value reaches 0.
  */
 typedef struct
 {
     Event base; // Inherit base Event class.
 
-    Active *ao;       // Active object that requested the time event.
+    Active *ao;       // Active object requesting the timer event.
     uint32_t timeout; // Timeout counter in ms; 0 means not armed.
     uint32_t reload;  // Reload value for periodic time events, 0 means one-shot.
 } TimeEvent;

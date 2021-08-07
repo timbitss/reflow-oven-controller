@@ -151,7 +151,7 @@ static void Active_event_loop(void *argument)
             LOGE(TAG, "Message queue error.");
         }
 
-        /* Dispatch to event handler and run to completion. */
+        /* Dispatch event to active object's event handler and run to completion. */
         ao->evt_handler(ao, evt);
     }
 }
