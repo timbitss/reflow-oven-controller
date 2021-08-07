@@ -83,6 +83,8 @@ Once the PID tuning process is complete, the oven is ready for reflow applicatio
 ## Command-line Interface
 Users may access the CLI using a serial terminal with the serial line configured for 115200 baud rate, 8 data bits, 1 stop bit, and no parity.
 
+To toggle logging on and off, press the **Tab** key. 
+
 To see the commands that are available, enter `help` or `?`.
 
 ![Help Command](/images/help_command.PNG "Help Command")
