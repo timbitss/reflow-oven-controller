@@ -131,7 +131,7 @@ Safety must be a priority when using this project. Please do not leave the reflo
 - Prof. Dave Marples and Timothy Woo for inspiring me with their open-source reflow controller projects ([Leater](https://github.com/mubes/leater) and [Reflowduino](https://github.com/botletics/Reflowduino)).
 - Philip Salmony for his [digital PID implementation](https://github.com/pms67/PID).
 - Gene Schroeder for his [series on bare-metal programming](https://youtube.com/playlist?list=PL4cGeWgaBTe155QQSQ72DksLIjBn5Jn2Z).
-- Dr. Miro Samek for his [active object](https://youtu.be/l69ghMpsp6w) and [state machine](https://youtu.be/dwRsgSBcawU) tutorials. 
+- Dr. Miro Samek for his [active object](https://youtube.com/playlist?list=PLPW8O6W-1chx8Y7Oq2gOE0NUPXmQxu2Wr) and [state machine](https://youtube.com/playlist?list=PLPW8O6W-1chxym7TgIPV9k5E8YJtSBToI) tutorials. 
 
 ## Additional Resources
 - [Basics on Reflow Soldering](https://www.x-toaster.com/resources/basics-on-reflow-soldering/)
