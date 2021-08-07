@@ -107,7 +107,7 @@ To display log levels at the global and module scope, enter `log status`.
 
 To set a module's log level, enter `log set <module tag> <level>`.
 - Acceptable log levels are OFF, ERROR, WARNING, INFO, DEBUG, VERBOSE.
-- This command accepts the wildcard (*) argument for the `<module tag>` argument.
+- This command accepts a wildcard (*) for the `<module tag>` argument.
 
 ### Reflow Commands
 To view relevant information about the reflow oven controller, enter `reflow status`.
